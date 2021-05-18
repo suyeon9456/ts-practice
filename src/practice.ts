@@ -1,40 +1,65 @@
-const message: string = 'test';
-console.log('message', message);
 
-let count = 0;
-count += 1;
-// count = 'test'
-
-const result: boolean = true 
-const list: number[] = [1, 2]
-const txtList: string[] = ['1', '2']
-
-// txtList.push(2)
-
-let mightBeUndefined: string | undefined = undefined
-let nullableNum: number | null = null
-
-let nickname: 'woogie' | 'ddunie' = 'woogie'
-
-function sum (a: number, b: number): number {
-  return a + b
-}
-const sumResult = sum(1, 2)
-console.log(sumResult)
-
-function sumArray (list: number[]): number {
-  return list.reduce((acc, current) => acc + current, 0)
+interface Shape {
+  getArea(): number
 }
 
-const sumArrayResult = sumArray([1, 2, 3])
-console.log(sumArrayResult)
+class Circle implements Shape {
+  // radius: number
 
-function test2(): string | number {
-  return 4
+  constructor(public radius: number) { // public private 은 typescript에서만 의미있음 js파일에선 똑같음
+    // this.radius = radius
+  }
+
+  getArea() {
+    return this.radius * this.radius  * Math.PI
+  }
 }
 
-function test (): void {
-  // return 'd'
+const circle = new Circle(10)
+
+class Rectangle implements Shape {
+  // width: number
+  // height: number
+
+  constructor (private width: number, private height: number) {
+    // this.width = width
+    // this.height = height
+  }
+
+  getArea() {
+    return this.width * this.height
+  }
 }
 
-test()
+const rectangle = new Rectangle(5, 6)
+
+const shapes: Shape[] = [circle, rectangle]
+
+shapes.forEach(area => console.log(area.getArea()))
+
+///////////////////////////////////////////////////////////////////
+// interface Person {
+type Person = {
+  name: string,
+  age?: number
+}
+
+type Developer = Person & {
+  skills: string[]
+}
+
+const person: Person = {
+  name: 'suyeon',
+  age: 28
+}
+
+const developer: Developer = {
+  name: 'suyeon',
+  skills: ['javascript', 'typescript', 'react', 'vue', 'java']
+}
+
+type People = Person[]
+const people: People = [person, developer]
+
+type Color = 'yellow' | 'orange' | 'red'
+const color: Color = 'yellow'
