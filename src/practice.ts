@@ -1,65 +1,51 @@
-
-interface Shape {
-  getArea(): number
-}
-
-class Circle implements Shape {
-  // radius: number
-
-  constructor(public radius: number) { // public private 은 typescript에서만 의미있음 js파일에선 똑같음
-    // this.radius = radius
-  }
-
-  getArea() {
-    return this.radius * this.radius  * Math.PI
+function merge<T1, T2> (a: T1, b: T2) {
+  return {
+    ...a,
+    ...b
   }
 }
 
-const circle = new Circle(10)
+const merged = merge({ foo: '123' }, { foof: '1234', varr: '12345'})
 
-class Rectangle implements Shape {
-  // width: number
-  // height: number
+function wrap<T> (param: T) {
+  return { param }
+}
 
-  constructor (private width: number, private height: number) {
-    // this.width = width
-    // this.height = height
+const wraped = wrap(10)
+
+// interface Items<T> {
+type Items<T, V> = {
+  list: T[]
+  value: V
+}
+
+const items: Items<number, string> = {
+  list: [1, 2, 2],
+  value: 'st'
+}
+
+class Queue<T> {
+  list: T[] = []
+  get listLegth () {
+    return this.list.length
   }
 
-  getArea() {
-    return this.width * this.height
+  enqueue (item: T) {
+    this.list.push(item)
+  }
+
+  dequeue () {
+    return this.list.shift()
   }
 }
 
-const rectangle = new Rectangle(5, 6)
+const queue = new Queue<number>()
+queue.enqueue(1)
+queue.enqueue(2)
+queue.enqueue(3)
+queue.enqueue(4)
+queue.enqueue(5)
 
-const shapes: Shape[] = [circle, rectangle]
-
-shapes.forEach(area => console.log(area.getArea()))
-
-///////////////////////////////////////////////////////////////////
-// interface Person {
-type Person = {
-  name: string,
-  age?: number
+while (queue.listLegth > 0) {
+  console.log(queue.dequeue())
 }
-
-type Developer = Person & {
-  skills: string[]
-}
-
-const person: Person = {
-  name: 'suyeon',
-  age: 28
-}
-
-const developer: Developer = {
-  name: 'suyeon',
-  skills: ['javascript', 'typescript', 'react', 'vue', 'java']
-}
-
-type People = Person[]
-const people: People = [person, developer]
-
-type Color = 'yellow' | 'orange' | 'red'
-const color: Color = 'yellow'
